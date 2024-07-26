@@ -15,13 +15,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
   double humidity = 0, temperature = 0;
 
+  // Notificadores para avisar a los widgets que dependen de parametros que su valor ha cambiado
+  final _notificadorTemp = ValueNotifier<double>(0); // Notificador de temperatura
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(title: const Text("Gauge"),),
         body: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Expanded(child: GTemp()),
+        Expanded(child: GTemp(notificadorTemp: _notificadorTemp,)),
         const Divider(
           height: 5,
         ),
@@ -60,8 +63,10 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
     if (temp.exists && humi.exists) {
       temperature = double.parse(temp.value.toString());
       humidity = double.parse(humi.value.toString());
-      print('Temperature: $temperature');
-      print('Humidity: $humidity');
+
+      // Accediendo al valor actual de las variables mediante el método "value"
+      _notificadorTemp.value = temperature;
+
     } else {
       temperature = -1;
       humidity = -1;
