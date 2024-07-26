@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:rtdata/pantallas/GHume.dart';
 import 'package:rtdata/pantallas/GTemp.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -17,6 +18,7 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
 
   // Notificadores para avisar a los widgets que dependen de parametros que su valor ha cambiado
   final _notificadorTemp = ValueNotifier<double>(0); // Notificador de temperatura
+  final _notificadorHume = ValueNotifier<double>(0); // Notificador de humedad
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +30,7 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
         const Divider(
           height: 5,
         ),
-        Expanded(
-            child: SfRadialGauge(),
-            ),
+        Expanded(child: GHume(notificadorHume: _notificadorHume,)),
         const Divider(
           height: 5,
         ),
@@ -66,6 +66,7 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
 
       // Accediendo al valor actual de las variables mediante el método "value"
       _notificadorTemp.value = temperature;
+      _notificadorHume.value = humidity;
 
     } else {
       temperature = -1;
