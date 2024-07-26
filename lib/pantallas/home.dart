@@ -4,6 +4,8 @@ import 'package:after_layout/after_layout.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:rtdata/pantallas/GHume.dart';
 import 'package:rtdata/pantallas/GTemp.dart';
+import 'package:rtdata/widgets/CardHume.dart';
+import 'package:rtdata/widgets/CardTemp.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class Home extends StatefulWidget {
@@ -22,30 +24,35 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: const Text("Gauge"),),
-        body: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(child: GTemp(notificadorTemp: _notificadorTemp,)),
-        const Divider(
-          height: 5,
+    return Scaffold(
+      appBar: AppBar(title: const Text("Gauge"),),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            GTemp(notificadorTemp: _notificadorTemp,),
+            CardTemp(notificadorTemp: _notificadorTemp,),
+            const Divider(
+              height: 5,
+            ),
+            GHume(notificadorHume: _notificadorHume,),
+            CardHume(notificadorHume: _notificadorHume,),
+            const Divider(
+              height: 5,
+            ),
+            Row(children: [
+              Text("Temperatura: $temperature"),
+              Text("Humedad: $humidity")
+            ],)
+          ],
         ),
-        Expanded(child: GHume(notificadorHume: _notificadorHume,)),
-        const Divider(
-          height: 5,
-        ),
-        Row(children: [
-          Text("Temperatura: $temperature"),
-          Text("Humedad: $humidity")
-        ],)
-      ],
-    ));
+      ),
+    );
   }
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
     Timer.periodic(
-      const Duration(seconds: 20),
+      const Duration(seconds: 30),
       (timer) async {
         setState(() {
           temperature = 0;
