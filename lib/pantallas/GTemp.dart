@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class GTemp extends StatelessWidget {
-  final ValueNotifier<double> notificadorTemp;
+  final ValueNotifier<double> notificadorTemp; // Variable que almacena el valor del notificador
   const GTemp({Key? key, required this.notificadorTemp})
       : super(key: key); // Se pasa como parametro el notificador
 
@@ -61,9 +61,9 @@ class GTemp extends StatelessWidget {
                     endWidth: 0.03,
                     startWidth: 0.03),
               ],
-              pointers: const <GaugePointer>[
+              pointers: <GaugePointer>[
                 NeedlePointer(
-                    value: 20,
+                    value: temperature,
                     needleColor: Colors.black,
                     tailStyle: TailStyle(
                         length: 0.18,
